@@ -16,8 +16,70 @@ def kontrol():
         kutt=[]
         return kutt
 
+def yaz(kutt):
+        with open("veri.dat","w",encoding="UTF-8") as dosya:
+            dosya.writelines(kutt)
+            dosya.close     
+def hastalistele():
+    def listeduzelt():
+        kutt=kontrol()
+        adet=len(entries)
+        toplamkayit=len(kutt)
+        #print (adet)
+        aramaindex=0
+        index=0
+        kut2=[]
+        kut=[]
+        kut4=[]
+        while aramaindex<toplamkayit:
+            kut2=kutt[aramaindex].split(",")
+            kut=entries[index].get()+","+entries[index+1].get()+","+entries[index+2].get()+","+kut2[3]+","+kut2[4]+","+kut2[5]+","+kut2[6]+","+kut2[7]
+            kut4.append(kut)
+            index+=3
+            aramaindex+=1
+        yaz(kut4)
+        tkinter.messagebox.showinfo("Veri Düzeltildi","İlgili veri düzeltildi!!!")
+            
             
 
+        
+
+
+        pass
+
+    kutt=kontrol()
+    variables=[]
+    entries=[]
+    kont=0
+    index=-1
+    toplamkayit=len(kutt)
+    print (toplamkayit)
+    pencere3=Frame()
+    for k in range(toplamkayit):
+        for i in range(3):
+            va=StringVar()
+            en=Entry(pencere3,font="Times 15",textvariable=va)
+            en.grid(row=k,column=i)
+            variables.append(va)
+            entries.append(en)
+    geri=Button(pencere3,text="Geri Dön",font="Times 15",command=pencere3.destroy)  
+    duzelt=Button(pencere3,text="Duzelt",font="Times 15",command=listeduzelt)
+    while kont<toplamkayit:
+        bol=kutt[kont].split(",")
+        index+=1
+        entries[index].insert(0,bol[0])
+        index+=1
+        entries[index].insert(0,bol[1])
+        index+=1
+        entries[index].insert(0,bol[2])
+        kont+=1
+
+    pencere3.grid()
+    geri.grid(column=4,row=0)
+    duzelt.grid(column=4,row=1)
+
+
+    pencere3.mainloop()
 
 def hastasorma():
     global aramaindex
@@ -25,10 +87,7 @@ def hastasorma():
     deger1=IntVar()
     deger2=IntVar()
     pencere2=Frame()
-    def yaz(kutt):
-        with open("veri.dat","w",encoding="UTF-8") as dosya:
-            dosya.writelines(kutt)
-            dosya.close
+    
     def silme():
         global aramaindex
         #print(aramaindex)
@@ -245,7 +304,7 @@ dosyamenu=Menu(menu,tearoff=0)
 menu.add_cascade(label="Veri",menu=dosyamenu)
 dosyamenu.add_command(label="Hasta Kayıt",font="Times 20",command=hastakayit)
 dosyamenu.add_command(label="Hasta Sorma",font="Times 20",command=hastasorma)
-dosyamenu.add_command(label="Hasta Listeleme",font="Times 20")#,command=hastakayit)
+dosyamenu.add_command(label="Hasta Listeleme",font="Times 20",command=hastalistele)
 dosyamenu.add_command(label="Çıkış",font="Times 20",command=pencere.destroy)
 dosyamenu.add_command(label="Program Hakkında",font="Times 20",command=hakkinda)
 
